@@ -1,8 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fafaf9;
+  --foreground: #1c1917;
+  /* Light orange + off-white theme */
+  --brand-primary: #ea580c;
+  --brand-primary-dark: #c2410c;
+  --brand-surface: #fff7ed;
+  --brand-border: #fed7aa;
+  --brand-success: #059669;
 }
 
 @theme inline {
@@ -12,15 +18,52 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  width: 100%;
+  min-height: 100%;
+  height: 100%;
 }
 
 body {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: 100%;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.2s ease;
+}
+
+input,
+textarea,
+select {
+  @apply bg-white text-stone-900 placeholder:text-stone-400 outline-none border border-stone-200 rounded-xl;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.15);
+}
+
+button:disabled {
+  @apply cursor-not-allowed opacity-70;
+}
+
+button:not(:disabled),
+a,
+[role="button"] {
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+button:not(:disabled):hover:not(:focus-visible),
+a:hover:not(:focus-visible) {
+  transform: translateY(-1px);
+}
+
+button:not(:disabled):active,
+a:active {
+  transform: translateY(0);
 }

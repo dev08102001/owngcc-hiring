@@ -1,65 +1,118 @@
-import Image from "next/image";
+"use client";
+
+import Link from "next/link";
+import {
+  ArrowRight,
+  LayoutDashboard,
+  Shield,
+  Zap,
+  Users,
+  Target,
+} from "lucide-react";
+import { useFlow } from "@/components/FlowProvider";
+
+const WHY_OWN_GCC = [
+  {
+    icon: Users,
+    title: "You own your team",
+    desc: "Talent works for you, not a vendor.",
+  },
+  {
+    icon: Shield,
+    title: "Transparent & vetted",
+    desc: "Clear process, curated profiles.",
+  },
+  {
+    icon: Zap,
+    title: "Fast, guided hiring",
+    desc: "Short steps, no long forms.",
+  },
+  {
+    icon: Target,
+    title: "Role-matched talent",
+    desc: "Only candidates that fit your brief.",
+  },
+];
 
 export default function Home() {
+  const { state } = useFlow();
+  const hasAccessCode = Boolean(state.generatedAccessCode);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="flex min-h-screen w-full flex-col">
+      <section
+        className="relative flex min-h-screen w-full flex-col overflow-auto bg-gradient-to-br from-orange-600 via-orange-500 to-orange-700"
+        style={{ minHeight: "100vh" }}
+      >
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(255,255,255,0.2),transparent)]" />
+
+        <div className="relative flex min-h-screen flex-col px-4 py-6 sm:px-6 md:px-10 lg:px-16">
+          {/* Top row: badge + CTA buttons always visible */}
+          <div className="flex shrink-0 flex-wrap items-center justify-between gap-4">
+            <span className="inline-flex rounded-full border border-white/30 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur-sm">
+              OwnGCC Talent Center
+            </span>
+            <div className="flex flex-wrap items-center gap-3">
+              <Link
+                href="/start"
+                className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-base font-semibold text-orange-600 shadow-lg transition-all hover:bg-orange-50 hover:shadow-xl"
+              >
+                Start Hiring
+                <ArrowRight className="h-5 w-5" />
+              </Link>
+              {hasAccessCode && (
+                <Link
+                  href="/access"
+                  className="inline-flex items-center gap-2 rounded-xl border-2 border-white/60 bg-white/15 px-6 py-3 text-base font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/25"
+                >
+                  <LayoutDashboard className="h-5 w-5" />
+                  Access Talent Dashboard
+                </Link>
+              )}
+            </div>
+          </div>
+
+          {/* Main content: headline + details */}
+          <div className="flex flex-1 flex-col justify-center py-8">
+            <h1 className="max-w-3xl text-balance text-4xl font-bold leading-tight tracking-tight text-white drop-shadow-sm sm:text-5xl md:text-6xl">
+              What is OwnGCC?
+            </h1>
+
+            <div className="mt-6 max-w-2xl space-y-3 text-lg text-white/95">
+              <p>
+                OwnGCC helps you hire offshore talent through a simple, guided
+                process.
+              </p>
+              <p>
+                We connect you with vetted professionals so you can build and
+                scale your teams with confidence.
+              </p>
+              <p>
+                One brief, curated profiles, and interviews when you’re ready—you
+                stay in control.
+              </p>
+            </div>
+
+            {/* Why choose OwnGCC */}
+            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {WHY_OWN_GCC.map((item) => (
+                <div
+                  key={item.title}
+                  className="flex items-start gap-3 rounded-xl border border-white/20 bg-white/10 p-4 backdrop-blur-sm transition-all hover:bg-white/15"
+                >
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/20 text-white">
+                    <item.icon className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white">{item.title}</h3>
+                    <p className="text-sm text-white/90">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </section>
     </div>
   );
 }

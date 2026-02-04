@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OwnGCC Talent Center
 
-## Getting Started
+A clean, professional, client-ready frontend demo for a hiring platform. **Frontend only** — uses mock data and local state; no backend or database.
 
-First, run the development server:
+## Tech stack
+
+- **Next.js** (App Router)
+- **TypeScript**
+- **Tailwind CSS**
+- No authentication, no database
+
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open in your browser: **http://localhost:3000**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### If the app won’t open
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **“Port 3000 is in use” or “Unable to acquire lock”**  
+   Another dev server may be running. Either:
+   - Open **http://localhost:3000** (or **http://localhost:3001** if it switched port) in your browser, or  
+   - Close any other terminal/tab where you ran `npm run dev`, then run again:
+     ```bash
+     npm run dev
+     ```
+2. **Use a different port** (e.g. if 3000 is blocked):
+   ```bash
+   npm run dev:port
+   ```
+   Then open **http://localhost:3002**
+3. **Stuck or weird errors**  
+   Delete the build cache and restart:
+   ```bash
+   rmdir /s /q .next
+   npm run dev
+   ```
+   Then open **http://localhost:3000**
 
-## Learn More
+## Application flow
 
-To learn more about Next.js, take a look at the following resources:
+1. **Landing** — OwnGCC branding, “How it works” (3 steps), **Start Hiring** CTA  
+2. **Company requirements** — Conversational form, one question at a time (company name, location, contact, email). Step 1 of 5  
+3. **Role & skills** — Role, headcount, experience level; skill suggestions by role (e.g. Frontend Developer → React, JavaScript, HTML, CSS). Edit/remove skills. Step 2 of 5  
+4. **Working preferences** — Preferred hours (India / US / UK), interview mode (Video / Audio), joining timeline. Step 3 of 5  
+5. **Budget & engagement** — Optional budget, engagement type (Full-time / Contract), optional note. Step 4 of 5  
+6. **Completion** — Generated access code (e.g. GCC-9X28A), copy button, “This code has been sent to your email,” **Access Talent Dashboard**  
+7. **Code verification** — Paste code; validated against the generated code; on success → dashboard  
+8. **Talent dashboard** — Mock candidate cards (name, role, skills, experience, availability). **Shortlist** and **Request Interview**. Demo data banner shown  
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Design
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Theme inspired by [owngcc.com](https://owngcc.com): deep blue/slate, white, gray
+- Clean spacing, modern typography, minimal UI
+- Progress indicator “Step X of 5” on form steps
 
-## Deploy on Vercel
+## Project structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `src/app/` — Pages (landing, start, role, preferences, budget, complete, access, dashboard)
+- `src/components/` — `FlowProvider` (form state), `ProgressShell` (layout + progress), `ui/Card`
+- `src/lib/dummyData.ts` — Mock candidates and access code generator
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+All logic is client-side; form state is persisted in `localStorage` via `FlowProvider`.

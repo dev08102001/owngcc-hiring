@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Company {
+  id             Int             @id @default(autoincrement())
+  companyName    String?
+  contactPerson  String?
+  email          String?
+  location       String?
+  createdAt      DateTime        @default(now())
+  hiringRequests HiringRequest[]
+  accessCodes    AccessCode[]
+}
+
+model HiringRequest {
+  id                      Int       @id @default(autoincrement())
+  companyId               Int
+  company                 Company   @relation(fields: [companyId], references: [id])
+  role                    String?
+  headcount               Int?
+  experienceRange         String?
+  skills                  Json?
+  workingHours            String?
+  joiningTimeline         String?
+  budgetRange             String?
+  engagementType          String?
+  notes                   String?
+  deliveryFocus           String?
+  interactionLevel        String?
+  communicationImportance String?
+  createdAt               DateTime  @default(now())
+}
+
+model AccessCode {
+  id        Int      @id @default(autoincrement())
+  code      String   @unique
+  companyId Int
+  company   Company  @relation(fields: [companyId], references: [id])
+  isUsed    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Candidate {
+  id           Int      @id @default(autoincrement())
+  name         String
+  role         String
+  experience   Float
+  skills       Json?
+  availability String
+  monthlyCost  Int
+}
